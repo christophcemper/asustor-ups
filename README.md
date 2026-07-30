@@ -68,6 +68,9 @@ upsc -l 192.168.1.100
 
 - [INSTALL.md](INSTALL.md) — NAS setup + Mac client setup, step by step
 - [TROUBLESHOOTING.md](TROUBLESHOOTING.md) — common failure modes and fixes
+- [.bash_aliases](.bash_aliases) — `ups`, `ups-charge`, `ups-watch`, `ups-all` &
+  friends; auto-detects the UPS from the installed `upsmon.conf`, supports
+  multiple UPSes via `UPS_TARGETS`
 - [config/](config/) — template configs (`upsmon.conf`, `notify.sh`, LaunchDaemon plist)
 - [scripts/install-mac.sh](scripts/install-mac.sh) — automated Mac-side install
 - [scripts/status.sh](scripts/status.sh) — one-shot health check
@@ -83,6 +86,17 @@ upsc -l 192.168.1.100
 
 ## Ideas / roadmap
 
+- **Multi-UPS monitoring via a dedicated NUT host**: a Raspberry Pi with a USB hub
+  can run one `upsd` with a `usbhid-ups` driver instance per connected UPS
+  (distinguished by serial number in `ups.conf`) — aggregating several UPSes that
+  protect different equipment into a single NUT server the Macs and NAS boxes all
+  query. Removes the "one NAS per UPS" coupling.
+- **Home Assistant as the UPS hub**: HA (e.g. on a Pi with a USB hub) with the
+  [NUT add-on](https://github.com/hassio-addons/addon-nut) serving multiple USB
+  UPSes, plus the native NUT integration for dashboards, history graphs, and
+  automations (alerts, smart-plug load shedding) — while regular NUT clients keep
+  working against the add-on's upsd. The `ups-all` helper in
+  [.bash_aliases](.bash_aliases) already handles multiple targets client-side.
 - Prometheus/Grafana metrics via a NUT exporter
 - Push notifications (ntfy / Pushover) in addition to Notification Center
 - `upssched`-based delayed/tiered shutdown policies

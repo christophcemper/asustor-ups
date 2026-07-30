@@ -98,13 +98,20 @@ and drops its polling child to `nobody` — two processes in `ps` is normal.
 
 ### 2.4 Shell alias
 
-For bash:
+Either the single alias — for bash:
 
 ```bash
 echo 'alias ups="upsc ASUSTOR-UPS-MYNAS@192.168.1.100"' >> ~/.bash_profile
 ```
 
-For zsh (macOS default), append the same line to `~/.zshrc`.
+(for zsh, macOS's default, append the same line to `~/.zshrc`) — or source the
+full helper set from [.bash_aliases](.bash_aliases), which adds `ups-charge`,
+`ups-runtime`, `ups-watch`, `ups-log`, `ups-all` (multi-UPS), and more, and
+auto-detects the UPS from the installed `upsmon.conf`:
+
+```bash
+cp .bash_aliases ~/.bash_aliases_ups && printf '%s\n' '[ -f "$HOME/.bash_aliases_ups" ] && . "$HOME/.bash_aliases_ups"' >> ~/.bash_profile
+```
 
 ### 2.5 On the NAS
 
