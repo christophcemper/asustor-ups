@@ -8,6 +8,14 @@ Tested with an **Eaton Ellipse ECO 1600** on an Asustor NAS running ADM, and Mac
 on Apple Silicon (Homebrew under `/opt/homebrew`). Any UPS that ADM recognizes over
 USB should work the same way, since ADM's UPS support is NUT under the hood.
 
+## Why?
+
+My UPS had no usable macOS software — turns out the best Mac UPS app is no app at all.
+
+Eaton's Mac tooling for the Ellipse ECO quietly died years ago. 
+
+The fix: plug the UPS into my Asustor NAS via USB, let ADM's built-in NUT server share it on the LAN, and every Mac becomes a lightweight client — live battery/load/runtime in the terminal with a single ups command, native Notification Center alerts the moment power drops, and a clean automatic shutdown before the battery runs out. Works logged-out, survives reboots, no vendor software at all.
+
 ## How it works
 
 ```
