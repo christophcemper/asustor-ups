@@ -2,6 +2,7 @@
 # NUT upsmon NOTIFYCMD -> macOS Notification Center via terminal-notifier
 MSG="$1"
 TYPE="${NOTIFYTYPE:-EVENT}"
+TS="$(date '+%Y-%m-%d %H:%M:%S')"
 TN="/opt/homebrew/bin/terminal-notifier"
 
 uid=$(stat -f%u /dev/console)
@@ -15,7 +16,7 @@ esac
 
 if [ -n "$uid" ] && [ "$user" != "root" ] && [ "$user" != "loginwindow" ] && [ "$user" != "_mbsetupuser" ]; then
   launchctl asuser "$uid" sudo -u "$user" \
-    "$TN" -title "UPS — $TYPE" -message "$MSG" -sound "$sound" >/dev/null 2>&1
+    "$TN" -title "UPS — $TYPE" -subtitle "$TS" -message "$MSG" -sound "$sound" >/dev/null 2>&1
 fi
 
-logger -t upsmon "$TYPE: $MSG"
+logger -t upsmon "$TS $TYPE: $MSG"
