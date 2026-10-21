@@ -48,8 +48,9 @@ The fix: plug the UPS into my Asustor NAS via USB, let ADM's built-in NUT server
 
 See [INSTALL.md](INSTALL.md) for the full walkthrough. Short version:
 
-1. On the NAS: plug in the UPS via USB, then ADM → **Settings → Hardware → UPS** →
-   enable the network UPS server and allow your Macs' IPs.
+1. On the NAS: plug in the UPS via USB, then ADM → **External Devices → UPS →
+   Preferences** → enable network UPS support and change the default NUT user name
+   and password (ADM has no allowed-IP list; use its firewall to restrict TCP 3493).
 2. On each Mac:
 
 ```bash

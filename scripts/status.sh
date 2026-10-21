@@ -17,7 +17,7 @@ if "$UPSC" "$UPS" >/dev/null 2>&1; then
     printf '  %-18s %s\n' "$v" "$("$UPSC" "$UPS" "$v" 2>/dev/null)"
   done
 else
-  echo "  UNREACHABLE — is the NAS up and this IP on its allowed list?"
+  echo "  UNREACHABLE — is the NAS up and does its firewall allow this Mac on TCP 3493?"
 fi
 
 echo "== upsmon daemon =="

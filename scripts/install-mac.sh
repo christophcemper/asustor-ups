@@ -42,7 +42,7 @@ if /opt/homebrew/bin/upsc "$UPS" ups.status 2>/dev/null; then
   echo "OK — UPS reachable."
 else
   echo "WARNING: cannot reach $UPS."
-  echo "Add this Mac's IP to the NAS allowed list: ADM -> Settings -> Hardware -> UPS."
+  echo "Check the NAS is up and that its firewall (if any) allows this Mac on TCP 3493."
 fi
 
 echo "Done. Open a new shell (or 'source $PROFILE') and run: ups"

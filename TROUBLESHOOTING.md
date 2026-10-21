@@ -6,12 +6,19 @@ NAS IP. The Mac-side log is `/var/log/upsmon.log`.
 <a name="login-failed"></a>
 ## `Login on UPS [...] failed - got [ERR ACCESS-DENIED]`
 
-ADM's built-in NUT server doesn't expose NUT user management in its UI, so whatever
-username/password you put in `upsmon.conf` will likely be rejected — **but
-everything user-visible still works**: the NAS allows data reads from IPs on its
-allowed list, so polling, the `ups` alias, notifications, and local ONBATT/LOWBATT
-handling all function. The log shows `Communications ... established` right after
-the failed login.
+ADM's NUT server has exactly **one** account, the user name and password set in
+ADM → External Devices → UPS → Preferences (ADM ships a well-known default; change
+it). A `MONITOR` line with any other user or the `CHANGE_ME_readonly` placeholder is
+rejected — **but everything user-visible still works**, because anonymous reads are
+allowed: polling, the `ups` alias, notifications, and local ONBATT/LOWBATT handling
+all function. The log shows `Communications ... established` after a failed login on
+a reconnect (a fresh start only logs `Connected to NUT server` and the failed login).
+
+**Fix:** put the ADM account's user name and password into the `MONITOR` line and
+restart upsmon: `sudo launchctl kickstart -k system/org.networkupstools.upsmon`.
+The account has the NUT role `master` (ADM's only role), so every client holds that
+privilege; keep `upsmon.conf` readable by root only (`chmod 600`). Never use
+`upsmon -c` to test a config: it sends `fsd`/`stop`/`reload` to the running daemon.
 
 What the failed login costs you: the NAS (NUT primary) can't count your Mac as a
 logged-in secondary, so coordinated shutdown ordering (primary waits for

@@ -17,13 +17,18 @@ Throughout, replace the examples with your values:
 
 1. **Connect the UPS**: plug the UPS's USB cable into the NAS, and power the NAS
    from the UPS's battery-protected outlets.
-2. **ADM web UI** → **Settings → Hardware → UPS**:
+2. **ADM web UI** → **External Devices → UPS → Preferences** (ADM 5.1.x; older ADM
+   versions put it under Settings → Hardware):
    - The UPS should be detected automatically (NUT's `usbhid-ups` driver handles
      most Eaton/APC/CyberPower models).
    - Set the NAS behaviour on power loss (shutdown or safe mode, and the wait time).
-3. **Enable network UPS sharing** (same panel): turn on **"Enable network UPS
-   server"** and add the IP of every Mac that should be allowed to connect. This
-   starts `upsd` on **TCP 3493**.
+3. **Enable network UPS sharing** (same window): tick **"Enable network UPS
+   Support"**. This starts `upsd` on **TCP 3493**, on all interfaces. ADM 5.1 has
+   **no allowed-IP list** (the IP grid only shows the NAS's own addresses); restrict
+   the port with ADM Defender → Firewall if you need to. In the same window ADM lets
+   you set the NUT **user name and password** (it has exactly one account, and ships a
+   well-known default password): change it, and use that account in each Mac's
+   `MONITOR` line (§2.2).
 4. **Verify from an allowed machine** (after §2.1):
 
 ```bash
@@ -75,9 +80,9 @@ cp config/upsmon.conf config/notify.sh /opt/homebrew/etc/nut/ && chmod +x /opt/h
   `MONITOR <upsname>@<nas-ip> 1 <user> <password> secondary`
   plus `SHUTDOWNCMD "/sbin/shutdown -h now"` and NOTIFYCMD/NOTIFYFLAG wiring so every
   event (ONBATT, LOWBATT, FSD, COMMOK/COMMBAD, …) goes to syslog **and** `notify.sh`.
-  Note: ADM's built-in NUT server doesn't expose user management — see
-  [TROUBLESHOOTING.md](TROUBLESHOOTING.md#login-failed) for why a rejected login is
-  usually harmless here.
+  Use the NUT user name and password you set in ADM (§1 step 3); with any other value
+  the login is rejected — see [TROUBLESHOOTING.md](TROUBLESHOOTING.md#login-failed) for
+  why that is usually harmless, and how to fix it.
 - `notify.sh` — bridges NUT events to macOS Notification Center via
   `terminal-notifier`, resolving the console user with `stat -f%Su /dev/console`
   and picking an alert sound per event class (bad → Basso, good → Glass, other →
