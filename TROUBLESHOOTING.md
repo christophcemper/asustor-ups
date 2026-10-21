@@ -15,7 +15,9 @@ all function. The log shows `Communications ... established` after a failed logi
 a reconnect (a fresh start only logs `Connected to NUT server` and the failed login).
 
 **Fix:** put the ADM account's user name and password into the `MONITOR` line and
-restart upsmon: `sudo launchctl kickstart -k system/org.networkupstools.upsmon`.
+restart upsmon: `sudo launchctl kickstart -k system/org.networkupstools.upsmon`
+(or `scripts/nut-credential.sh apply`, which does both from a mode-600 credential file;
+verify with `scripts/nut-credential.sh check`).
 The account has the NUT role `master` (ADM's only role), so every client holds that
 privilege; keep `upsmon.conf` readable by root only (`chmod 600`). Never use
 `upsmon -c` to test a config: it sends `fsd`/`stop`/`reload` to the running daemon.

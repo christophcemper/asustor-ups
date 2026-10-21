@@ -11,7 +11,10 @@ the setup; [TROUBLESHOOTING.md](TROUBLESHOOTING.md) the failure modes.
   the placeholders `ASUSTOR-UPS-MYNAS` and `192.168.1.100` — keep it that way.
 - `config/` holds **templates**: on a real machine they are installed to
   `/opt/homebrew/etc/nut/` and `/Library/LaunchDaemons/`, with the `MONITOR` line
-  parameterized by `scripts/install-mac.sh <upsname>@<nas-ip>`.
+  parameterized by `scripts/install-mac.sh <upsname>@<nas-ip>`. The NUT login is
+  never committed: `scripts/nut-credential.sh` writes it from a mode-600 file outside
+  the repo into the live `MONITOR` line.
+- `upsmon -c` is not a config test (it sends `fsd`/`stop`/`reload`); never use it to validate.
 - Docs-only repo — no build, no tests. Verifying a change means walking the
   commands in INSTALL.md §2.6 / running `scripts/status.sh` on a machine with the
   stack installed.

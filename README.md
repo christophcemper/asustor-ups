@@ -83,6 +83,7 @@ upsc -l 192.168.1.100
 - [config/](config/) — template configs (`upsmon.conf`, `notify.sh`, LaunchDaemon plist)
 - [scripts/install-mac.sh](scripts/install-mac.sh) — automated Mac-side install
 - [scripts/status.sh](scripts/status.sh) — one-shot health check
+- [scripts/nut-credential.sh](scripts/nut-credential.sh) — NUT login: `init`, `copy`, `apply`, `rollback`, `check` (password kept out of the repo)
 
 ## What you get
 

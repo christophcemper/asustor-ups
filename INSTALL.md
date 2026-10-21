@@ -83,6 +83,13 @@ cp config/upsmon.conf config/notify.sh /opt/homebrew/etc/nut/ && chmod +x /opt/h
   Use the NUT user name and password you set in ADM (§1 step 3); with any other value
   the login is rejected — see [TROUBLESHOOTING.md](TROUBLESHOOTING.md#login-failed) for
   why that is usually harmless, and how to fix it.
+  Instead of typing the password into the file, you can let
+  [scripts/nut-credential.sh](scripts/nut-credential.sh) handle it: `init` generates a
+  random password into `~/.config/asustor-ups/nut-credential.env` (mode 600), `copy`
+  puts it on the clipboard for ADM, and `apply` writes it into the live `MONITOR` line
+  (root-only, with a backup) and restarts upsmon — only while the UPS is on line power.
+  `check` tells you whether the NAS accepted the login; `rollback` restores the backup.
+  `install-mac.sh` runs `apply` automatically when that file exists.
 - `notify.sh` — bridges NUT events to macOS Notification Center via
   `terminal-notifier`, resolving the console user with `stat -f%Su /dev/console`
   and picking an alert sound per event class (bad → Basso, good → Glass, other →
